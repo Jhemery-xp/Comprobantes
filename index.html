@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -7,50 +8,38 @@
 <title>Recibo</title>
 
 <style>
+
 @page {
     size: 58mm auto;
     margin: 0;
 }
 
-body {
-    width: 58mm;
-    margin: 0 auto;
-    padding: 5px;
+* {
     box-sizing: border-box;
-    font-family: "Courier New", monospace;
-    font-size: 14px;
-    color: black;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 58mm;
     background: white;
 }
 
-.panel {
-    font-family: Arial, sans-serif;
-    margin-bottom: 15px;
+body {
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
 }
 
-.panel label {
-    display: block;
-    margin-top: 8px;
-    font-size: 13px;
-}
-
-.panel input {
-    width: 100%;
-    padding: 7px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-button {
-    width: 100%;
-    margin-top: 12px;
-    padding: 9px;
-    font-size: 15px;
-}
+/* RECIBO */
 
 .recibo {
-    display: none;
+    width: 58mm;
+    padding: 3mm 2mm;
 }
+
+/* TÍTULO */
 
 .centro {
     text-align: center;
@@ -58,214 +47,351 @@ button {
 
 .titulo {
     font-weight: bold;
-    font-size: 17px;
-    margin-bottom: 8px;
+    font-size: 21px;
+    margin-bottom: 10px;
 }
 
-.linea {
-    border-top: 1px dashed black;
-    margin: 8px 0;
+/* FECHA Y HORA */
+
+.fecha-hora {
+    font-size: 15px;
+    line-height: 1.5;
 }
+
+/* LÍNEA */
+
+.linea {
+    border-top: 2px dashed black;
+    margin: 10px 0;
+}
+
+/* FILAS */
 
 .fila {
     display: flex;
     justify-content: space-between;
-    margin: 6px 0;
-    gap: 8px;
+    align-items: center;
+    gap: 4px;
+    margin: 9px 0;
+    line-height: 1.25;
+}
+
+.etiqueta {
+    flex-shrink: 0;
 }
 
 .valor {
     text-align: right;
 }
 
+/* CAMPOS EDITABLES */
+
+.editable {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: "Courier New", monospace;
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    text-align: right;
+    padding: 0;
+    margin: 0;
+}
+
+.editable:focus {
+    background: #eeeeee;
+}
+
+/* ENVIADOR */
+
+#enviador {
+    width: 105px;
+}
+
+/* MONTOS */
+
+.monto-input {
+    width: 75px;
+}
+
+/* TOTAL */
+
 .total {
     font-weight: bold;
+    font-size: 17px;
+    margin-top: 11px;
 }
+
+/* ASTERISCOS */
 
 .asteriscos {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.4;
 }
+
+/* PIE */
 
 .pie {
     text-align: center;
-    margin-top: 10px;
+    margin-top: 12px;
+    font-size: 12px;
 }
+
+
+/* ============================= */
+/* IMPRESIÓN */
+/* ============================= */
 
 @media print {
 
-    .panel {
-        display: none;
+    html, body {
+        width: 58mm;
+        margin: 0;
+        padding: 0;
     }
 
     .recibo {
-        display: block;
+        width: 58mm;
+        padding: 3mm 2mm;
     }
 
-    body {
-        width: 58mm;
-        padding: 3px;
+    .editable {
+        background: transparent !important;
     }
+
+    input {
+        border: none !important;
+        outline: none !important;
+    }
+
 }
+
 </style>
+
 </head>
 
 <body>
 
-<div class="panel">
-
-    <h3>Crear recibo</h3>
-
-    <label>Enviador</label>
-    <input id="enviador" value="OLIMPO">
-
-    <label>Monto enviado</label>
-    <input id="monto" type="number" step="0.01" value="300">
-
-    <label>Comisión</label>
-    <input id="comision" type="number" step="0.01" value="3">
-
-    <button onclick="imprimir()">IMPRIMIR</button>
-
-</div>
-
-
 <div class="recibo">
 
-    <div class="centro titulo">
-        RECIBO
-    </div>
+```
+<!-- TÍTULO -->
 
-    <div class="centro">
-
-        Fecha:
-        <span id="fecha"></span>
-
-        <br>
-
-        Hora:
-        <span id="hora"></span>
-
-    </div>
-
-    <div class="linea"></div>
+<div class="centro titulo">
+    RECIBO
+</div>
 
 
-    <div class="fila">
+<!-- FECHA Y HORA -->
 
-        <span>Enviador</span>
+<div class="centro fecha-hora">
 
-        <span class="valor" id="rEnviador"></span>
+    Fecha:
+    <span id="fecha"></span>
 
-    </div>
+    <br>
 
-
-    <div class="fila">
-
-        <span>Monto Enviado</span>
-
-        <span class="valor">
-            S/. <span id="rMonto"></span>
-        </span>
-
-    </div>
-
-
-    <div class="fila">
-
-        <span>Comisión</span>
-
-        <span class="valor">
-            S/. <span id="rComision"></span>
-        </span>
-
-    </div>
-
-
-    <div class="linea"></div>
-
-
-    <div class="fila total">
-
-        <span>Total Transferido</span>
-
-        <span class="valor">
-            S/. <span id="rTotal"></span>
-        </span>
-
-    </div>
-
-
-    <div class="asteriscos">
-        ******************************
-        <br>
-        ******************************
-    </div>
-
-
-    <div class="pie">
-        Made with Thermmer
-    </div>
+    Hora:
+    <span id="hora"></span>
 
 </div>
 
+
+<div class="linea"></div>
+
+
+<!-- ENVIADOR -->
+
+<div class="fila">
+
+    <span class="etiqueta">
+        Enviador
+    </span>
+
+    <input
+        id="enviador"
+        class="editable"
+        type="text"
+        value="OLIMPO"
+    >
+
+</div>
+
+
+<!-- MONTO -->
+
+<div class="fila">
+
+    <span class="etiqueta">
+        Monto Enviado
+    </span>
+
+    <span class="valor">
+
+        S/.
+        <input
+            id="monto"
+            class="editable monto-input"
+            type="number"
+            step="0.01"
+            value="300.00"
+            oninput="actualizarTotal()"
+        >
+
+    </span>
+
+</div>
+
+
+<!-- COMISIÓN -->
+
+<div class="fila">
+
+    <span class="etiqueta">
+        Comisión
+    </span>
+
+    <span class="valor">
+
+        S/.
+        <input
+            id="comision"
+            class="editable monto-input"
+            type="number"
+            step="0.01"
+            value="3.00"
+            oninput="actualizarTotal()"
+        >
+
+    </span>
+
+</div>
+
+
+<div class="linea"></div>
+
+
+<!-- TOTAL -->
+
+<div class="fila total">
+
+    <span class="etiqueta">
+        Total Transferido
+    </span>
+
+    <span class="valor">
+
+        S/.
+        <span id="total">
+            297.00
+        </span>
+
+    </span>
+
+</div>
+
+
+<!-- DECORACIÓN -->
+
+<div class="asteriscos">
+
+    ************************
+
+    <br>
+
+    ************************
+
+</div>
+
+
+<!-- PIE -->
+
+<div class="pie">
+    Made with Thermmer
+</div>
+```
+
+</div>
 
 <script>
 
-function actualizar() {
+/* ============================= */
+/* FECHA Y HORA */
+/* ============================= */
 
-    let ahora = new Date();
+function actualizarFechaHora() {
 
-    let dia = String(ahora.getDate()).padStart(2, "0");
-    let mes = String(ahora.getMonth() + 1).padStart(2, "0");
-    let año = ahora.getFullYear();
+    const ahora = new Date();
 
-    let hora = String(ahora.getHours()).padStart(2, "0");
-    let minutos = String(ahora.getMinutes()).padStart(2, "0");
+    const dia = String(
+        ahora.getDate()
+    ).padStart(2, "0");
+
+    const mes = String(
+        ahora.getMonth() + 1
+    ).padStart(2, "0");
+
+    const año = ahora.getFullYear();
+
+    const hora = String(
+        ahora.getHours()
+    ).padStart(2, "0");
+
+    const minutos = String(
+        ahora.getMinutes()
+    ).padStart(2, "0");
 
     document.getElementById("fecha").textContent =
         dia + "/" + mes + "/" + año;
 
     document.getElementById("hora").textContent =
         hora + ":" + minutos;
-
-
-    let enviador =
-        document.getElementById("enviador").value;
-
-    let monto =
-        Number(document.getElementById("monto").value) || 0;
-
-    let comision =
-        Number(document.getElementById("comision").value) || 0;
-
-
-    document.getElementById("rEnviador").textContent =
-        enviador;
-
-    document.getElementById("rMonto").textContent =
-        monto.toFixed(2);
-
-    document.getElementById("rComision").textContent =
-        comision.toFixed(2);
-
-    document.getElementById("rTotal").textContent =
-        (monto - comision).toFixed(2);
 }
 
 
-function imprimir() {
+/* ============================= */
+/* CALCULAR TOTAL */
+/* ============================= */
 
-    actualizar();
+function actualizarTotal() {
 
-    window.print();
+    const monto =
+        Number(
+            document.getElementById("monto").value
+        ) || 0;
 
+    const comision =
+        Number(
+            document.getElementById("comision").value
+        ) || 0;
+
+    const total =
+        monto - comision;
+
+    document.getElementById("total").textContent =
+        total.toFixed(2);
 }
 
 
-actualizar();
+/* ============================= */
+/* INICIO */
+/* ============================= */
 
-setInterval(actualizar, 1000);
+actualizarFechaHora();
+
+actualizarTotal();
+
+
+/* Actualizar hora cada minuto */
+
+setInterval(
+    actualizarFechaHora,
+    60000
+);
 
 </script>
 
