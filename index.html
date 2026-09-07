@@ -13,58 +13,58 @@
     margin: 0;
 }
 
-* {
-    box-sizing: border-box;
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 58mm;
+    height: auto !important;
+    min-height: 0 !important;
+    background: white;
 }
 
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 58mm;
-    background: white;
+* {
+    box-sizing: border-box;
 }
 
 body {
     font-family: "Arial Black", "Courier New", monospace;
     font-size: 22px;
     font-weight: 900;
-    color: #000000;
+    color: #000;
 }
-
-/* RECIBO */
 
 .recibo {
     width: 58mm;
-    padding: 1mm 1mm 0 1mm;
+    margin: 0;
+    padding: 0 1mm 0 1mm;
 }
 
 /* TÍTULO */
 
-.centro {
-    text-align: center;
-}
-
 .titulo {
+    text-align: center;
     font-size: 32px;
     font-weight: 900;
-    margin: 0 0 6px 0;
     line-height: 1;
+    margin: 0 0 4px 0;
 }
 
 /* FECHA Y HORA */
 
 .fecha-hora {
+    text-align: center;
     font-family: "Courier New", monospace;
     font-size: 20px;
     font-weight: 900;
-    line-height: 1.25;
+    line-height: 1.15;
+    margin: 0;
 }
 
 /* LÍNEAS */
 
 .linea {
     border-top: 3px dashed #000;
-    margin: 6px 0;
+    margin: 4px 0;
 }
 
 /* FILAS */
@@ -74,8 +74,8 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 2px;
-    margin: 6px 0;
-    line-height: 1.1;
+    margin: 4px 0;
+    line-height: 1;
 }
 
 .etiqueta {
@@ -88,7 +88,7 @@ body {
     font-weight: 900;
 }
 
-/* CAMPOS EDITABLES */
+/* CAMPOS */
 
 .editable {
     border: none;
@@ -99,7 +99,7 @@ body {
     font-size: 22px;
     font-weight: 900;
 
-    color: #000000;
+    color: #000;
     text-align: right;
 
     padding: 0;
@@ -108,13 +108,9 @@ body {
     -webkit-text-stroke: 0.2px #000;
 }
 
-/* ENVIADOR */
-
 #enviador {
     width: 115px;
 }
-
-/* MONTOS */
 
 .monto-input {
     width: 85px;
@@ -125,45 +121,42 @@ body {
 .total {
     font-size: 24px;
     font-weight: 900;
-    margin-top: 7px;
-    margin-bottom: 4px;
+    margin: 5px 0 2px 0;
 }
 
-/* ASTERISCOS */
+/* FINAL */
 
 .asteriscos {
     text-align: center;
-    margin-top: 6px;
-    margin-bottom: 0;
-    padding-bottom: 0;
-
     font-family: "Courier New", monospace;
     font-size: 18px;
     font-weight: 900;
-    line-height: 1;
-    
+    line-height: 0.9;
+
+    margin: 2px 0 0 0;
+    padding: 0;
+
     -webkit-text-stroke: 0.2px #000;
 }
 
-/* IMPRESIÓN */
-
 @media print {
 
-    html,
-    body {
-        width: 58mm;
-        margin: 0;
-        padding: 0;
+    html, body {
+        width: 58mm !important;
+        height: auto !important;
+        min-height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     .recibo {
         width: 58mm;
-        padding: 1mm 1mm 0 1mm;
+        margin: 0;
+        padding: 0 1mm 0 1mm;
     }
 
     .editable {
-        background: transparent !important;
-        color: #000000 !important;
+        color: #000 !important;
         font-weight: 900 !important;
         -webkit-text-stroke: 0.2px #000;
     }
@@ -177,17 +170,15 @@ body {
 </style>
 </head>
 
-
 <body>
 
 <div class="recibo">
 
-    <div class="centro titulo">
+    <div class="titulo">
         RECIBO
     </div>
 
-
-    <div class="centro fecha-hora">
+    <div class="fecha-hora">
 
         Fecha:
         <span id="fecha"></span>
@@ -199,9 +190,7 @@ body {
 
     </div>
 
-
     <div class="linea"></div>
-
 
     <div class="fila">
 
@@ -217,7 +206,6 @@ body {
         >
 
     </div>
-
 
     <div class="fila">
 
@@ -241,7 +229,6 @@ body {
 
     </div>
 
-
     <div class="fila">
 
         <span class="etiqueta">
@@ -264,9 +251,7 @@ body {
 
     </div>
 
-
     <div class="linea"></div>
-
 
     <div class="fila total">
 
@@ -277,27 +262,19 @@ body {
         <span class="valor">
 
             S/.
-            <span id="total">
-                297.00
-            </span>
+            <span id="total">297.00</span>
 
         </span>
 
     </div>
 
-
     <div class="asteriscos">
-
         ************************
-
         <br>
-
         ************************
-
     </div>
 
 </div>
-
 
 <script>
 
@@ -305,23 +282,12 @@ function actualizarFechaHora() {
 
     const ahora = new Date();
 
-    const dia = String(
-        ahora.getDate()
-    ).padStart(2, "0");
-
-    const mes = String(
-        ahora.getMonth() + 1
-    ).padStart(2, "0");
-
+    const dia = String(ahora.getDate()).padStart(2, "0");
+    const mes = String(ahora.getMonth() + 1).padStart(2, "0");
     const año = ahora.getFullYear();
 
-    const hora = String(
-        ahora.getHours()
-    ).padStart(2, "0");
-
-    const minutos = String(
-        ahora.getMinutes()
-    ).padStart(2, "0");
+    const hora = String(ahora.getHours()).padStart(2, "0");
+    const minutos = String(ahora.getMinutes()).padStart(2, "0");
 
     document.getElementById("fecha").textContent =
         dia + "/" + mes + "/" + año;
@@ -330,35 +296,22 @@ function actualizarFechaHora() {
         hora + ":" + minutos;
 }
 
-
 function actualizarTotal() {
 
     const monto =
-        Number(
-            document.getElementById("monto").value
-        ) || 0;
+        Number(document.getElementById("monto").value) || 0;
 
     const comision =
-        Number(
-            document.getElementById("comision").value
-        ) || 0;
-
-    const total =
-        monto - comision;
+        Number(document.getElementById("comision").value) || 0;
 
     document.getElementById("total").textContent =
-        total.toFixed(2);
+        (monto - comision).toFixed(2);
 }
 
-
 actualizarFechaHora();
-
 actualizarTotal();
 
-setInterval(
-    actualizarFechaHora,
-    60000
-);
+setInterval(actualizarFechaHora, 60000);
 
 </script>
 
