@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Recibo</title>
+
+<style>
+@page {
+    size: 58mm auto;
+    margin: 0;
+}
+
+body {
+    width: 58mm;
+    margin: 0 auto;
+    padding: 5px;
+    box-sizing: border-box;
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    color: black;
+    background: white;
+}
+
+.panel {
+    font-family: Arial, sans-serif;
+    margin-bottom: 15px;
+}
+
+.panel label {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+}
+
+.panel input {
+    width: 100%;
+    padding: 7px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 9px;
+    font-size: 15px;
+}
+
+.recibo {
+    display: none;
+}
+
+.centro {
+    text-align: center;
+}
+
+.titulo {
+    font-weight: bold;
+    font-size: 17px;
+    margin-bottom: 8px;
+}
+
+.linea {
+    border-top: 1px dashed black;
+    margin: 8px 0;
+}
+
+.fila {
+    display: flex;
+    justify-content: space-between;
+    margin: 6px 0;
+    gap: 8px;
+}
+
+.valor {
+    text-align: right;
+}
+
+.total {
+    font-weight: bold;
+}
+
+.asteriscos {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.pie {
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media print {
+
+    .panel {
+        display: none;
+    }
+
+    .recibo {
+        display: block;
+    }
+
+    body {
+        width: 58mm;
+        padding: 3px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="panel">
+
+    <h3>Crear recibo</h3>
+
+    <label>Enviador</label>
+    <input id="enviador" value="OLIMPO">
+
+    <label>Monto enviado</label>
+    <input id="monto" type="number" step="0.01" value="300">
+
+    <label>Comisión</label>
+    <input id="comision" type="number" step="0.01" value="3">
+
+    <button onclick="imprimir()">IMPRIMIR</button>
+
+</div>
+
+
+<div class="recibo">
+
+    <div class="centro titulo">
+        RECIBO
+    </div>
+
+    <div class="centro">
+
+        Fecha:
+        <span id="fecha"></span>
+
+        <br>
+
+        Hora:
+        <span id="hora"></span>
+
+    </div>
+
+    <div class="linea"></div>
+
+
+    <div class="fila">
+
+        <span>Enviador</span>
+
+        <span class="valor" id="rEnviador"></span>
+
+    </div>
+
+
+    <div class="fila">
+
+        <span>Monto Enviado</span>
+
+        <span class="valor">
+            S/. <span id="rMonto"></span>
+        </span>
+
+    </div>
+
+
+    <div class="fila">
+
+        <span>Comisión</span>
+
+        <span class="valor">
+            S/. <span id="rComision"></span>
+        </span>
+
+    </div>
+
+
+    <div class="linea"></div>
+
+
+    <div class="fila total">
+
+        <span>Total Transferido</span>
+
+        <span class="valor">
+            S/. <span id="rTotal"></span>
+        </span>
+
+    </div>
+
+
+    <div class="asteriscos">
+        ******************************
+        <br>
+        ******************************
+    </div>
+
+
+    <div class="pie">
+        Made with Thermmer
+    </div>
+
+</div>
+
+
+<script>
+
+function actualizar() {
+
+    let ahora = new Date();
+
+    let dia = String(ahora.getDate()).padStart(2, "0");
+    let mes = String(ahora.getMonth() + 1).padStart(2, "0");
+    let año = ahora.getFullYear();
+
+    let hora = String(ahora.getHours()).padStart(2, "0");
+    let minutos = String(ahora.getMinutes()).padStart(2, "0");
+
+    document.getElementById("fecha").textContent =
+        dia + "/" + mes + "/" + año;
+
+    document.getElementById("hora").textContent =
+        hora + ":" + minutos;
+
+
+    let enviador =
+        document.getElementById("enviador").value;
+
+    let monto =
+        Number(document.getElementById("monto").value) || 0;
+
+    let comision =
+        Number(document.getElementById("comision").value) || 0;
+
+
+    document.getElementById("rEnviador").textContent =
+        enviador;
+
+    document.getElementById("rMonto").textContent =
+        monto.toFixed(2);
+
+    document.getElementById("rComision").textContent =
+        comision.toFixed(2);
+
+    document.getElementById("rTotal").textContent =
+        (monto - comision).toFixed(2);
+}
+
+
+function imprimir() {
+
+    actualizar();
+
+    window.print();
+
+}
+
+
+actualizar();
+
+setInterval(actualizar, 1000);
+
+</script>
+
+</body>
+</html>
