@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
 <meta charset="UTF-8">
@@ -26,17 +25,17 @@ html, body {
 }
 
 body {
-    font-family: "Courier New", monospace;
-    font-size: 20px;
-    font-weight: bold;
-    color: black;
+    font-family: "Arial Black", "Courier New", monospace;
+    font-size: 22px;
+    font-weight: 900;
+    color: #000000;
 }
 
 /* RECIBO */
 
 .recibo {
     width: 58mm;
-    padding: 2mm 1mm;
+    padding: 1mm 1mm 0 1mm;
 }
 
 /* TÍTULO */
@@ -46,24 +45,26 @@ body {
 }
 
 .titulo {
+    font-size: 32px;
     font-weight: 900;
-    font-size: 28px;
-    margin-bottom: 7px;
+    margin: 0 0 6px 0;
+    line-height: 1;
 }
 
 /* FECHA Y HORA */
 
 .fecha-hora {
-    font-size: 18px;
-    line-height: 1.3;
+    font-family: "Courier New", monospace;
+    font-size: 20px;
     font-weight: 900;
+    line-height: 1.25;
 }
 
-/* LÍNEA */
+/* LÍNEAS */
 
 .linea {
-    border-top: 2px dashed black;
-    margin: 7px 0;
+    border-top: 3px dashed #000;
+    margin: 6px 0;
 }
 
 /* FILAS */
@@ -73,8 +74,8 @@ body {
     justify-content: space-between;
     align-items: center;
     gap: 2px;
-    margin: 7px 0;
-    line-height: 1.15;
+    margin: 6px 0;
+    line-height: 1.1;
 }
 
 .etiqueta {
@@ -93,13 +94,18 @@ body {
     border: none;
     outline: none;
     background: transparent;
-    font-family: "Courier New", monospace;
-    font-size: 20px;
+
+    font-family: "Arial Black", "Courier New", monospace;
+    font-size: 22px;
     font-weight: 900;
-    color: black;
+
+    color: #000000;
     text-align: right;
+
     padding: 0;
     margin: 0;
+
+    -webkit-text-stroke: 0.2px #000;
 }
 
 /* ENVIADOR */
@@ -111,35 +117,40 @@ body {
 /* MONTOS */
 
 .monto-input {
-    width: 82px;
+    width: 85px;
 }
 
 /* TOTAL */
 
 .total {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 900;
-    margin-top: 8px;
+    margin-top: 7px;
+    margin-bottom: 4px;
 }
 
 /* ASTERISCOS */
 
 .asteriscos {
     text-align: center;
-    margin-top: 9px;
-    font-size: 15px;
+    margin-top: 6px;
+    margin-bottom: 0;
+    padding-bottom: 0;
+
+    font-family: "Courier New", monospace;
+    font-size: 18px;
     font-weight: 900;
-    line-height: 1.15;
+    line-height: 1;
+    
+    -webkit-text-stroke: 0.2px #000;
 }
 
-
-/* ============================= */
 /* IMPRESIÓN */
-/* ============================= */
 
 @media print {
 
-    html, body {
+    html,
+    body {
         width: 58mm;
         margin: 0;
         padding: 0;
@@ -147,161 +158,146 @@ body {
 
     .recibo {
         width: 58mm;
-        padding: 2mm 1mm;
+        padding: 1mm 1mm 0 1mm;
     }
 
     .editable {
         background: transparent !important;
-        color: black !important;
+        color: #000000 !important;
         font-weight: 900 !important;
+        -webkit-text-stroke: 0.2px #000;
     }
 
     input {
         border: none !important;
         outline: none !important;
     }
-
 }
 
 </style>
-
 </head>
+
 
 <body>
 
 <div class="recibo">
 
-```
-<!-- TÍTULO -->
-
-<div class="centro titulo">
-    RECIBO
-</div>
+    <div class="centro titulo">
+        RECIBO
+    </div>
 
 
-<!-- FECHA Y HORA -->
+    <div class="centro fecha-hora">
 
-<div class="centro fecha-hora">
+        Fecha:
+        <span id="fecha"></span>
 
-    Fecha:
-    <span id="fecha"></span>
+        <br>
 
-    <br>
+        Hora:
+        <span id="hora"></span>
 
-    Hora:
-    <span id="hora"></span>
-
-</div>
+    </div>
 
 
-<div class="linea"></div>
+    <div class="linea"></div>
 
 
-<!-- ENVIADOR -->
+    <div class="fila">
 
-<div class="fila">
-
-    <span class="etiqueta">
-        Enviador
-    </span>
-
-    <input
-        id="enviador"
-        class="editable"
-        type="text"
-        value="OLIMPO"
-    >
-
-</div>
-
-
-<!-- MONTO -->
-
-<div class="fila">
-
-    <span class="etiqueta">
-        Monto Enviado
-    </span>
-
-    <span class="valor">
-
-        S/.
-        <input
-            id="monto"
-            class="editable monto-input"
-            type="number"
-            step="0.01"
-            value="300.00"
-            oninput="actualizarTotal()"
-        >
-
-    </span>
-
-</div>
-
-
-<!-- COMISIÓN -->
-
-<div class="fila">
-
-    <span class="etiqueta">
-        Comisión
-    </span>
-
-    <span class="valor">
-
-        S/.
-        <input
-            id="comision"
-            class="editable monto-input"
-            type="number"
-            step="0.01"
-            value="3.00"
-            oninput="actualizarTotal()"
-        >
-
-    </span>
-
-</div>
-
-
-<div class="linea"></div>
-
-
-<!-- TOTAL -->
-
-<div class="fila total">
-
-    <span class="etiqueta">
-        Total Transferido
-    </span>
-
-    <span class="valor">
-
-        S/.
-        <span id="total">
-            297.00
+        <span class="etiqueta">
+            Enviador
         </span>
 
-    </span>
+        <input
+            id="enviador"
+            class="editable"
+            type="text"
+            value="OLIMPO"
+        >
+
+    </div>
+
+
+    <div class="fila">
+
+        <span class="etiqueta">
+            Monto Enviado
+        </span>
+
+        <span class="valor">
+
+            S/.
+            <input
+                id="monto"
+                class="editable monto-input"
+                type="number"
+                step="0.01"
+                value="300.00"
+                oninput="actualizarTotal()"
+            >
+
+        </span>
+
+    </div>
+
+
+    <div class="fila">
+
+        <span class="etiqueta">
+            Comisión
+        </span>
+
+        <span class="valor">
+
+            S/.
+            <input
+                id="comision"
+                class="editable monto-input"
+                type="number"
+                step="0.01"
+                value="3.00"
+                oninput="actualizarTotal()"
+            >
+
+        </span>
+
+    </div>
+
+
+    <div class="linea"></div>
+
+
+    <div class="fila total">
+
+        <span class="etiqueta">
+            Total Transferido
+        </span>
+
+        <span class="valor">
+
+            S/.
+            <span id="total">
+                297.00
+            </span>
+
+        </span>
+
+    </div>
+
+
+    <div class="asteriscos">
+
+        ************************
+
+        <br>
+
+        ************************
+
+    </div>
 
 </div>
 
-
-<!-- DECORACIÓN -->
-
-<div class="asteriscos">
-
-    ************************
-
-    <br>
-
-    ************************
-
-</div>
-```
-
-</div>
 
 <script>
 
